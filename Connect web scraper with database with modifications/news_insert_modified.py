@@ -32,12 +32,10 @@ def get_category_id(connection, category):
     cursor.execute(query, (category,))
     c_result = cursor.fetchall()
     return c_result[0][0]
-"""
     if c_result:
-        return c_result[0]  # Assuming id is the first column in the categories table
+        return c_result[0] 
     else:
-        return None  # Handle the case when category doesn't exist
-"""
+        return None  
 
 
 
@@ -49,7 +47,7 @@ def insert_reporter(connection, name, email):
     """
     data = (name, email)
     execute_query(connection, query, data)
-    # return reporter id
+    
 
 def get_reporter_id(connection, reporter):
     query = "SELECT id FROM reporters WHERE name = %s"
@@ -58,9 +56,9 @@ def get_reporter_id(connection, reporter):
     r_result = cursor.fetchall()
     cursor = None
     if r_result:
-        return r_result[0][0]  # Assuming id is the first column in the reporters table
+        return r_result[0][0]  
     else:
-        return None  # Handle the case when reporter doesn't exist
+        return None  
 
 
 
@@ -79,13 +77,9 @@ def get_publisher_id(connection, publisher):
     cursor.execute(query, (publisher,))
     p_result = cursor.fetchall()
     if p_result:
-        return p_result[0][0]  # Assuming id is the first column in the publishers table
+        return p_result[0][0]  
     else:
-        return None  # Handle the case when publisher doesn't exist
-
-# Now, you can use these functions to fetch foreign key values before inserting news article
-
-
+        return None  
 
 
 def insert_news(connection, category_id, reporter_id, publisher_id, datetime, title, body, link):
@@ -103,11 +97,10 @@ def get_news_id(connection, title):
     cursor.execute(query, (title,))
     n_result = cursor.fetchall()
     if n_result:
-        return n_result[0][0]  # Assuming id is the first column in the publishers table
+        return n_result[0][0]  
     else:
-        return None  # Handle the case when publisher doesn't exist
+        return None  
     
-
 
 def insert_image(connection, news_id, image_url):
     
@@ -119,22 +112,7 @@ def insert_image(connection, news_id, image_url):
     execute_query(connection, query, data)
 
 def insert_summary(connection, news_id, summary_text):
-    """
-    Inserts a new summary into the summaries table.
-
-    Parameters
-    ----------
-    connection : mysql.connector.connection.MySQLConnection
-        The connection object to the database.
-    news_id : int
-        The ID of the news article associated with the summary.
-    summary_text : str
-        The text of the summary.
-
-    Returns
-    -------
-    None
-    """
+   
     query = """
     INSERT INTO summaries (news_id, summary_text)
     VALUES (%s, %s)
