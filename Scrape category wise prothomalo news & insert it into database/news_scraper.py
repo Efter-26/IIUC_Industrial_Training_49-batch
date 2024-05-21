@@ -20,7 +20,7 @@ from insert_news import (execute_query,
                                 insert_image)
 
 
-def process_and_insert_news_data(connection, publisher_website, publisher, title, reporter, news_datetime, category, images, url):
+def process_and_insert_news_data(connection, publisher_website, publisher, title, reporter, news_datetime, category, news_body, images, url):
     
     try:
         # Insert category if not exists
@@ -84,7 +84,16 @@ if __name__ == "__main__":
     conn = create_data_connection()
     if conn is not None:
         
-        url = "https://www.prothomalo.com/lifestyle/fashion/zs78004xl0"
-        publisher_website, publisher, title, reporter, news_datetime, category, news_body, images = single_news_scraper(url)
-        #print(publisher_website, publisher, title, reporter, news_datetime, category, news_body, images)
-        process_and_insert_news_data(conn, publisher_website, publisher, title, reporter, news_datetime, category, images, url)
+       news_urls = [
+            "https://www.prothomalo.com/entertainment/drama/vsfm28d2sj",
+            "https://www.prothomalo.com/chakri/chakri-suggestion/txzjp2tm2l",
+            "https://www.prothomalo.com/lifestyle/health/qlkk7dbt65"
+        ]
+        
+        for url in news_urls:
+            result = single_news_scraper(url)
+            if result is not None:
+                publisher_website, publisher, title, reporter, news_datetime, category, news_body, images = result
+                process_and_insert_news_data(conn, publisher_website, publisher, title, reporter, news_datetime, category, news_body, images, url)
+            else:
+                print(f"Failed to scrape the news article from URL: {url}")
